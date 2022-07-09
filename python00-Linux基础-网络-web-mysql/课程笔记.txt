@@ -1,0 +1,735 @@
+\\172.16.0.1\python10 
+用户名：python10
+密码：python10magedu
+
+
+ftp://172.16.0.1/pub/ISOs/
+CentOS-6.9-x86_64-bin-DVD1.iso
+CentOS-7-x86_64-Everything-1708.iso
+
+
+ftp://172.16.0.1/pub/Tools/
+Xmanager Enterprise 5 Build 0576 & Keygen.rar
+
+ftp://172.16.0.1/pub/Tools/vmware12/
+VMware-workstation-12.5.2-4638234.exe
+
+
+
+分区 mount on /dir: 给分区分配一个目录名 mount point 
+
+
+swap 分区
+
+
+MBR分区
+主分区：1---4,一块硬盘最多四个主分区，对主机必须有，主区可以格式化ntfs,存数据
+扩展分区：1---4,一块硬盘最多一个扩展分区，可以没有扩展分区，划分成更小的单元，即逻辑分区
+逻辑分区：5----,可以格式化ntfs,存数据
+
+
+root administrator 
+
+/boot 500M 
+/     50G
+/data 60G
+swap  内存的2倍
+
+
+1K=1024=2^10
+1M=1024k=2^20
+1G
+1T
+1P
+1E
+1Z
+1Y
+
+/boot
+/tmp
+/etc
+/dev/sda
+/dev/sda1
+
+
+awk
+alias 
+bc
+basename
+cd
+chmod
+chgrp
+chown
+cp
+cat file 
+clock
+date
+dirname
+cal
+cut
+nano file
+ls -a 
+lsblk 
+lscpu
+free -h
+hostname
+help
+echo $PATH 
+echo $SHELL
+echo $PS1
+enable
+hash 
+history
+getfacl
+groupadd
+groupmod
+groupdel
+groups
+groupmems
+gpasswd
+grep
+ifconfig ipconfig
+info
+pwd -P
+passwd
+poweroff 关机
+man
+mv
+wc 
+mkdir
+ntpdate 
+newgrp
+timedatectl status centos7 
+lsb_release
+screen
+sort
+stat 
+sed
+setfacl 
+systemctl start ntpd  centos7
+service ntpd start centos6
+rm 
+rmdir
+rpm 
+touch 
+type 
+tty
+tree
+uniq 
+uname -r
+useradd
+usermod
+userdel
+umask 
+unalias
+vi vim
+who
+who am i
+whoami
+which 
+whereis 
+
+. 当前目录
+..  父目录
+
+
+
+
+
+
+实验：修改centos7的网卡名称
+gedit /boot/grub2/grub.cfg
+linux16 后加 net.ifnames=0
+
+reboot
+
+实验：时间同步
+ntpdate 172.16.0.1
+
+nano /etc/ntp.conf 
+server 172.16.0.1 iburst
+
+service ntpd start    centos6
+systemctl start ntpd  centos7
+
+
+实验：screen
+
+一个主机，两个终端
+
+lsblk
+rpm -ivh /run/media/root/CentOS\ 7\ x86_64/Packages/screen-4.1.0-0.23.20120314git3c2946.el7_2.x86_64.rpm
+
+A: screen -S help
+
+B: screen -ls 
+screen -x help 
+
+exit
+
+
+
+a 1010101
+A 1000001 65 
+
+0 0
+1 1
+10 2
+11 3
+
+结论：
+`` =$(),反向单引号，命令调用另一个命令的执行结果时使用
+
+RHEL 
+
+
+硬链接和软链接区别：
+根本区别：
+硬链接本质是一个文件，多个名字
+软链接本质是多个不同文件
+1、跨分区
+2、inode number 
+3、链接数
+4、目录
+5、删除
+
+
+ls
+cp
+mv 
+rm -rf 
+rmdir 
+touch 
+stat 
+ln -s 
+help cmd
+man 
+info
+cmd --help -h
+history 
+df -h
+df -i 
+screen
+tree
+rpm 
+date
+cal
+ntpdate serverip
+vim /etc/ntp.conf
+server serverip iburst
+
+centos6
+server ntpd start
+chkconfig ntpd on 开机自动启动
+
+centos7
+systemctl start ntpd
+systemctl enable ntpd 开机自动启动
+
+
+
+
+
+ls /etc/centos-release /etc/noexist > /data/1.log 2> /data/2.log
+
+
+0  输入
+1  输出
+2  错误
+
+> >> file  重定向输出
+2>  2>>file 重定向错误
+< file  输入重定向
+<<keyword  多行重定向 
+xxx
+keyword
+
+&> file 输出和错误全重定向
+
+cmd1|cmd2
+cmd1 2>&1 | cmd2 
+
+cmd1 | tee  file 
+
+
+#cat /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=eth0
+BOOTPROTO=static
+IPADDR=192.168.10.7
+PREFIX=24
+
+
+
+
+rwx
+111 7
+
+rw-
+110  6
+
+---
+000  0
+
+
+umask 掩码
+
+666  
+023
+
+110110110  666
+000010011  023
+110100100
+
+644 
+
+
+default=666/777-umask
+
+修正
+
+只有一种情况
+
+对文件，用666减umask结果如果有奇数，加1
+
+
+
+centos7
+ifconfig |head -n 2 |tail -n1 |cut -dt -f2 |cut -d" " -f2
+ifconfig |head -n 2 |tail -n1  |tr -s " "  |cut -d " " -f3
+
+centos6
+ifconfig |head -n2|tail -1 |cut -d: -f2 |cut -d" "  -f1
+
+
+
+取分区利用率
+df|cut -d"%" -f1 |tr -s ' ' |cut -d" " -f5
+df|tr -s ' ' '%'  |cut -d "%" -f5
+
+
+cut -d " " -f1  access_log |sort |uniq -c|sort -nr| tr -s ' '  |cut -d" " -f3 
+sort -t " " -k 1 access_log |cut -d " " -f1 |uniq -c |sort -nr |tr -s " " | cut -d " " -f3 |head -n 3
+
+
+
+cat f1 f2 |sort  |uniq -d
+
+seq 55  |sort -R |head -n1 
+echo {1..55}|tr ' ' '\n' |sort -R |head -n1 
+
+取所有IP相关的地址
+基本正则表达式
+ifconfig | grep --color -wo "[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}"   
+
+ifconfig | grep --color -ow "\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}"
+
+扩展正则表达式
+ifconfig | grep -Ewo "([0-9]{1,3}\.){3}[0-9]{1,3}"
+
+
+
+
+
+
+分区利用率
+df -h |grep "^/dev/sd" |grep -o '[[:digit:]]\+%' |grep -o '[[:digit:]]\+'
+
+
+ls *.rpm |rev |cut -d. -f2|rev |sort |uniq -c
+ls *.rpm | grep -Eo "\.\<[[:alnum:]_]+\>\.rpm$"  |cut -d. -f2 |sort |uniq -c
+ls *.rpm | grep -Eo "\.[^.]+\.rpm$" |cut -d. -f2|sort |uniq -c
+
+
+sed  's/quiet/& net.ifnames=0/' /etc/default/grub
+sed  '/GRUB_CMDLINE_LINUX/s/"$/ net.ifnames=0 &/' /etc/default/grub
+sed -r '/GRUB_CMDLINE_LINUX/s/(.*)"/\1 net.ifnames=0"/' /etc/default/grub
+
+
+取本机IP
+ifconfig eth0 |sed -n '2p' |sed -e 's/^.*net //' -e 's/ netmask.*//' 
+
+sed -r -e  's/^#(NameVirtualHost)/\1/' -e '/^#<VirtualHost/,/^#<\/VirtualHost/s/#//' /etc/httpd/conf/httpd.conf
+
+
+
+扩展正则表达式
+. 
+
+[^wang.]
+
+abc*
+.* 
+abc? ab abc
+abc+ abccccccc
+a{n}
+(abc){n}
+a{n,}
+a(,n)
+a{m,n}
+
+a|b
+a|bxy
+（a|b）xy
+
+^
+$
+\< \b
+\> \b
+
+^[[:space:]]*$
+
+
+sed -i 'script' file
+
+script:patterncommand 1!
+
+
+
+i++
+
+i=i+1
+
+i+=10
+i=i+10
+
+awk 'BEGIN{sum=0;for(i=1;i<=100;i++){sum+=i};print sum}' 
+awk 'BEGIN{sum=0;i=1;while(i<=100){sum+=i;i++};print "sum="sum" i="i}'
+
+
+awk '{ips[$1]++}END{for(ip in ips){print ip,ips[ip]}}' /var/log/httpd/access_log
+
+
+netstat -tn | awk '/^tcp\>/{split($5,ip,":");count[ip[1]]++}END{for (i in count) {print i,count[i]}}'
+
+
+https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.15.9.tar.xz
+
+
+rpm 
+-ivh
+-e
+-qi 
+-ql 
+-qa 
+-q --scripts
+-qf
+-K
+-V
+--import 
+
+
+rpm /data
+createrepo /data
+
+yum repo file
+vim /etc/yum.repos.d/xxx.repo
+[base]
+name=base
+baseurl=file http https ftp
+gpgcheck=0
+gpgkey=
+enabled=0|1
+
+
+yum 
+install 
+remove
+list
+info
+search
+groupinstall
+groupinfo
+groupremove
+history
+history undo n
+
+
+/apps/httpd2.4.10  --->/apps/httpd
+/apps/httpd.2.4.20 --->/apps/httpd
+
+
+源码编译安装
+
+1 下载源码并解压缩
+tar xvf httpd-2.4.29.tar.bz2  -C /usr/local/src/
+
+2安装编译相关工具及依赖的包
+yum groupinstall "development tools"
+yum install apr-devel apr-util-devel pcre-devel
+
+3 ./configure  --prefix=/apps/httpd24 --sysconfdir=/etc/httpd24 
+
+4 make  -j 4 
+
+5 make install
+
+6 PATH变量
+echo 'PATH=/apps/httpd24/bin:$PATH' >  /etc/profile.d/httpd24.sh
+. /etc/profile.d/httpd24.sh
+
+7 使用软件
+apachectl 启动服务
+
+
+作业：用脚本实现在centos6.9编译安装httpd 2.2.15      
+ftp://172.16.0.1/pub/Sources/sources/httpd/
+
+
+[[ $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] && echo  this is a IP
+
+
+ young 
+18
+ work hard 
+50
+ retire  
+80
+ very good
+
+cat if.sh 
+#!/bin/bash
+#
+#********************************************************************
+#Author:                wangxiaochun
+#QQ:                    29308620
+#Date:                  2018-03-17
+#FileName：             if.sh
+#URL:                   http://www.magedu.com
+#Description：          The test script
+#Copyright (C):         2018 All rights reserved
+#********************************************************************
+read -p "please input your age: " age
+[[ "$age" =~ ^[0-9]+$ ]] || { echo your age is false ; exit 10; } 
+if [ "$age" -gt 0 -a "$age" -le 18 ];then 
+        echo you are very young
+elif [ "$age" -gt 18 -a "$age" -le 50 ];then
+        echo "work hard"
+elif [ "$age" -gt 50 -a "$age" -le 80 ];then
+        echo "you are retire and enjoy you life"
+elif [  "$age" -gt 80 -a "$age" -le 150 ] ;then
+        echo "Very OK"
+
+else 
+        echo "you don not come from the earth"
+fi
+ 
+
+arr["a"]
+
+
+
+ISO
+OSI 
+IOS 
+
+bit 位
+frame 帧 物理 MAC
+1000 byte + N
+
+
+0--N
+N1-N2 
+
+
+unicast
+broadcast
+multicast
+
+
+http://www.magedu.com
+
+LAN
+WAN
+
+单工
+半双工：轮流
+全双式：
+
+
+ipx/spx
+novell netware 
+SUSE linux
+CENTOS 
+tcp/ip
+
+accton 
+
+混杂模式
+https://
+mail 
+
+冲突域：一个设备发送数据，另一个设备也同时发，如果发生冲突，这两个设备在同一个冲突域中
+广播域：一个设备发广播，另一个设备收到了，两个设备就是在同一个广播域中
+
+ARP
+
+wlan :
+wifi,wapi
+
+seq number 
+ack number
+
+macA mac100
+
+
+
+http://www.magedu.com--dns ->ip
+
+RARP 
+
+1segment10
+
+
+fragment
+
+1.1.1.1
+
+A
+0-127.X.X.X
+0xxxxxx.X.X.X
+前8位网络ID，后面24位主机ID
+0000000 0
+0111111 127
+
+10.0.0.100
+10.2.3.200
+
+2^24-2
+
+
+
+10.0.0.0
+10.255.255.255
+
+
+一个网络中主机数=2^主机ID位数-2
+
+B
+128-192.X.X.X
+
+10XXXXXX.XXXXXXXX.X.X
+10000000 128
+10111111 191
+前16位网络ID，后面16位主机ID
+
+172.20.X.X
+
+C
+192-223.X.X.X
+110XXXXXX.X.X.Y
+110000000 192
+110111111 223
+前24位网络ID，后面8位主机ID
+
+192.168.1.X
+
+D
+1110 多播
+224-239.
+E
+240-
+11110
+保留
+
+CIDR 无类域间路由
+
+
+http://www.magedu.com/index.html
+
+field 域
+
+NO SQL no only sql
+
+redis memcached  
+
+
+dirty data
+
+
+t1      	 t2
+---------------------
+table1  	table2 delete row1
+
+table2 row1 
+
+commit 提交
+
+
+
+
+acountid accountname  money   timestamp
+1         mage	      1亿     20180606xxxxx
+
+
+
+
+
+students
+id name teacherid 
+1  a     1
+2  b     1
+3  c 
+
+teachers
+id name 
+1  w
+2  z
+
+
+
+
+横向
+t1 
+sid,sname,city   
+1    a    bj
+2    b    sh
+3    c    tz
+
+t2 
+tid,tname,city
+1    w     bj
+2    n     zz
+
+
+sid,sname,city tid,tname,city
+
+1    a    bj  1    w     bj
+1    a    bj  2    n     zz
+2    b    sh  1    w     bj
+2    b    sh  2    n     zz
+3    c    tz  1    w     bj
+3    c    tz  2    n     zz
+
+交叉连接
+cross join 
+
+ 1 | Shi Zhongyu    3 | Miejue Shitai    
+ 4 | Ding Dian     |4 | Lin Chaoying  
+
+
+
+
+students 
+id name  create_ver delete_ver
+1   a      10	     20
+2   b      20        30
+3   d      40	     40  
+
+
+事务ID  35 
+
+
+hash(select stuid from students where stuid=10;)
+
+节点页
+叶子页
+
+where id >$var-10
+
+
+address(10)
+
+update stutdents where id> 10;
+
+
+CHANGE MASTER TO MASTER_HOST='192.168.8.7', MASTER_USER='repluser', MASTER_PASSWORD='centos', MASTER_LOG_FILE='mariadb-bin.000002', MASTER_LOG_POS=402;

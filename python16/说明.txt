@@ -1,0 +1,2 @@
+react-mobx-starter-master.zip 初始脚手架，首先解压，然后npm install安装模块
+react-mobx-starter-master-2installed.zip 有些同学网络不快，可能安装模块失败，提供此压缩包。已经安装过初始模块

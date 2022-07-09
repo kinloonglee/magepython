@@ -1,0 +1,44 @@
+﻿匹配邮箱地址
+```
+test@hot-mail.com
+v-ip@magedu.com
+web.manager@magedu.com.cn
+super.user@google.com
+a@w-a-com
+```
+匹配html标记内的内容
+```
+<a href='http://www.magedu.com/index.html' target='_blank'>马哥教育</a>
+```
+匹配URL
+```
+http://www.magedu.com/index.html
+https://login.magedu.com
+file:///ect/sysconfig/network
+```
+匹配二代中国身份证ID
+```
+321105700101003
+321105197001010030
+11210020170101054X
+17位数字+1位校验码组成
+前6位地址码，8位出生年月，3位数字，1位校验位（0-9或X）
+```
+判断密码强弱
+```
+要求密码必须由 10-15位 指定字符组成：
+十进制数字
+大写字母
+小写字母
+下划线
+要求四种类型的字符都要出现才算合法的强密码
+例如：Aatb32_67mnq，其中包含大写字母、小写字母、数字和下划线，是合格的强密码
+```
+单词统计word count
+```
+对sample文件进行单词统计，要求使用正则表达式
+```
+
+line = '''183.60.212.153 - - [19/Feb/2013:10:23:29 +0800] \
+"GET /o2o/media.html?menu=3 HTTP/1.1" 200 16691 "-" \
+"Mozilla/5.0 (compatible; EasouSpider; +http://www.easou.com/search/spider.html)"'''
